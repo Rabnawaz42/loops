@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import com.google.common.collect.Iterables;
-import net.sf.cglib.core.CollectionUtils;
-import net.sf.cglib.core.VisibilityPredicate;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -22,7 +20,7 @@ public final class Loops {
     private Loops() {
     }
 
-    public static <T> T all(final Iterable<T> list) throws InstantiationException {
+    public static <T> T all(final Iterable<T> list) {
         T first = Iterables.getFirst(list, null);
 
         if (first != null) {
@@ -33,7 +31,7 @@ public final class Loops {
                 throws Throwable {
                     List<Object> output = newArrayList();
                     for (T t : list) {
-                        output.add(method.invoke(t, args));
+                        output.add(methodProxy.invoke(t, args));
                     }
                     return Iterables.getLast(output);
                 }
